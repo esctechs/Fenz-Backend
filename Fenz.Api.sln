@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31402.337
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D7A85ECC-6538-42F6-B712-4527635FCD02}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EC0E0D25-1A8C-41CE-B8BE-7E210F4F1153}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Main", "src\Api.Main\Api.Main.csproj", "{D8B254FE-1E4A-4A09-AAAE-FCDFC026802C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fenz.Adapters", "src\Adapters\Fenz.Adapters.csproj", "{05A85FD8-C4F6-421E-ADC5-B3C0B2842377}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fenz.Application", "src\Application\Fenz.Application.csproj", "{8390728D-56AF-4C1F-9AC8-AA8A700E1879}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fenz.Domain", "src\Domain\Fenz.Domain.csproj", "{1682D715-7C25-4C78-AEB7-A4F655044CE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fenz.Drivers", "Fenz.Drivers\Fenz.Drivers.csproj", "{44869DE3-1AEB-4470-BC5D-E35A8A54F8A0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8B254FE-1E4A-4A09-AAAE-FCDFC026802C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8B254FE-1E4A-4A09-AAAE-FCDFC026802C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8B254FE-1E4A-4A09-AAAE-FCDFC026802C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8B254FE-1E4A-4A09-AAAE-FCDFC026802C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05A85FD8-C4F6-421E-ADC5-B3C0B2842377}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05A85FD8-C4F6-421E-ADC5-B3C0B2842377}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05A85FD8-C4F6-421E-ADC5-B3C0B2842377}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05A85FD8-C4F6-421E-ADC5-B3C0B2842377}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8390728D-56AF-4C1F-9AC8-AA8A700E1879}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8390728D-56AF-4C1F-9AC8-AA8A700E1879}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8390728D-56AF-4C1F-9AC8-AA8A700E1879}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8390728D-56AF-4C1F-9AC8-AA8A700E1879}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1682D715-7C25-4C78-AEB7-A4F655044CE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1682D715-7C25-4C78-AEB7-A4F655044CE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1682D715-7C25-4C78-AEB7-A4F655044CE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1682D715-7C25-4C78-AEB7-A4F655044CE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44869DE3-1AEB-4470-BC5D-E35A8A54F8A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44869DE3-1AEB-4470-BC5D-E35A8A54F8A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44869DE3-1AEB-4470-BC5D-E35A8A54F8A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44869DE3-1AEB-4470-BC5D-E35A8A54F8A0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {14A7D496-8F79-4F07-A429-F4124B85F9C4}
+	EndGlobalSection
+EndGlobal
