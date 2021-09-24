@@ -1,0 +1,9 @@
+version: '3.7'
+
+services:
+  fenzapi:
+    image: fenz-api
+    container_name: Fenz-Api
+    build:
+      context: .
+      dockerfile: Dockerfile
