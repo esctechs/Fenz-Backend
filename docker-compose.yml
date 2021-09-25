@@ -1,9 +1,44 @@
-version: '3.7'
+version: "3.7"
+
+networks:
+  fenzapi-dev:
+    driver: bridge
 
 services:
   fenzapi:
-    image: fenz-api
+    image: fenz-api:lastest
     container_name: Fenz-Api
     build:
       context: .
       dockerfile: Dockerfile
+    ports:
+      - "3333:80"
+    networks:
+      - fenzapi-dev
+
+  fenz_postgresql:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "joker"
+    container_name: fenz_db
+    ports:
+      - "15432:5432"
+    volumes:
+      - /home/evertonesc/desenvolvimento/docker-compose/PostgreSQL:/var/lib/postgresql/data
+    depends_on:
+      - fenzapi
+    networks:
+      - fenzapi-dev
+
+  fenz_pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "joker@fenz.com"
+      PGADMIN_DEFAULT_PASSWORD: "jokeradmin"
+    container_name: fenz_pgadmin
+    ports:
+      - "16543:80"
+    depends_on:
+      - fenz_postgresql
+    networks:
+      - fenzapi-dev
