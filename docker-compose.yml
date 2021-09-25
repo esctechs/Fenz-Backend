@@ -24,7 +24,7 @@ services:
     ports:
       - "15432:5432"
     volumes:
-      - /home/evertonesc/desenvolvimento/docker-compose/PostgreSQL:/var/lib/postgresql/data
+      - /home/fenz/dev/docker-compose/PostgreSQL:/var/lib/postgresql/data
     depends_on:
       - fenzapi
     networks:
