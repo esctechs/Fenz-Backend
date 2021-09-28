@@ -19,7 +19,9 @@ services:
   fenz_postgresql:
     image: postgres
     environment:
-      POSTGRES_PASSWORD: "joker"
+      POSTGRES_DATABASE: "fenzdb-dev"
+      POSTGRES_USERNAME: "joker"
+      POSTGRES_PASSWORD: "gotham"
     container_name: fenz_db
     ports:
       - "15432:5432"
