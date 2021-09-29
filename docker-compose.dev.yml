@@ -7,10 +7,12 @@ networks:
 services:
   fenzapi:
     image: fenz-api:lastest
-    container_name: Fenz-Api
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+    container_name: fenz-api
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: src/Api.Main/Dockerfile
     ports:
       - "3333:80"
     networks:
@@ -19,7 +21,9 @@ services:
   fenz_postgresql:
     image: postgres
     environment:
-      POSTGRES_PASSWORD: "joker"
+      POSTGRES_DATABASE: "fenzdb-dev"
+      POSTGRES_USERNAME: "joker"
+      POSTGRES_PASSWORD: "gotham"
     container_name: fenz_db
     ports:
       - "15432:5432"
