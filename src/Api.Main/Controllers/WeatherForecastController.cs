@@ -27,7 +27,7 @@ namespace Api.Main.Controllers
         public IEnumerable<WeatherForecast> Get()
         {
             _logger.LogInformation("Requesting...");
-
+            Console.WriteLine(5);
             throw new Exception("Test exception for sentry");            
         }
     }
