@@ -1,6 +1,7 @@
 using Api.Main.Config;
 using Api.Main.Config.Patterns;
 using Api.Main.Middleware;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -30,9 +31,19 @@ namespace Api.Main
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api.Main", Version = "v1" });
             });
 
+            //services.AddAuthorization(opts =>
+            //{
+            //    opts.AddPolicy("fenz-services", builder =>
+            //    {
+            //        builder.RequireScope("fenz-api");
+            //    });
+            //});
+
             //Temporary services registration
             services.LoadJsonFiles(WebHostEnvironment);
             services.AddIOptionsPattern(Configuration);
+
+            services.AddSingleton<IRequestHandler, RequestHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +60,7 @@ namespace Api.Main
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
