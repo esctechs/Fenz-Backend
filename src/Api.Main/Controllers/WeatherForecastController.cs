@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Api.Main.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    //[Authorize(Policy = "fenz-services")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -24,11 +23,11 @@ namespace Api.Main.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public string Get()
         {
             _logger.LogInformation("Requesting...");
             Console.WriteLine(5);
-            throw new Exception("Test exception for sentry");            
+            return "Flamengo";
         }
     }
 }
