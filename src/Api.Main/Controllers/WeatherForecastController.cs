@@ -7,7 +7,7 @@ namespace Api.Main.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize(Policy = "fenz-services")]
+    //[Authorize(Policy = "fenz-services")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -16,7 +16,7 @@ namespace Api.Main.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
-
+         
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
@@ -25,8 +25,8 @@ namespace Api.Main.Controllers
         [HttpGet]
         public string Get()
         {
-            _logger.LogInformation("Requesting...");
-            Console.WriteLine(5);
+            _logger.LogInformation("Requesting Vitória do Flamengo...");
+            //_logger.LogWarning("Vixi");
             return "Flamengo";
         }
     }
