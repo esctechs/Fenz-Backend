@@ -8,53 +8,53 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
-namespace Api.Main
+namespace Api.Main;
+
+public class Startup
 {
-    public class Startup
+    public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
     {
-        public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
+        Configuration = configuration;
+        WebHostEnvironment = webHostEnvironment;
+    }
+
+    public IConfiguration Configuration { get; }
+    public IWebHostEnvironment WebHostEnvironment { get; }
+
+    public void ConfigureServices(IServiceCollection services)
+    {
+
+        services.AddControllers();
+        services.AddSwaggerGen(c =>
         {
-            Configuration = configuration;
-            WebHostEnvironment = webHostEnvironment;
-        }
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api.Main", Version = "v1" });
+        });
 
-        public IConfiguration Configuration { get; }
-        public IWebHostEnvironment WebHostEnvironment { get; }
+        services.AddIdentityServer4(Configuration);
+        services.LoadJsonFiles(WebHostEnvironment);
+        services.AddIOptionsPattern(Configuration);
+        //services.AddLoggingConfigure();
 
-        public void ConfigureServices(IServiceCollection services)
+        //Temporary Registration
+        services.AddSingleton<IRequestHandler, RequestHandler>();
+    }
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api.Main v1"));
+
+        app.AddMiddleware();
+
+        app.UseHttpsRedirection();
+
+        app.UseRouting();
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.UseEndpoints(endpoints =>
         {
-
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api.Main", Version = "v1" });
-            });
-
-            services.AddIdentityServer4(Configuration);
-            services.LoadJsonFiles(WebHostEnvironment);
-            services.AddIOptionsPattern(Configuration);
-
-            //Temporary Registration
-            services.AddSingleton<IRequestHandler, RequestHandler>();
-        }
-
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api.Main v1"));
-
-            app.AddMiddleware();
-
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-        }
+            endpoints.MapControllers();
+        });
     }
 }
