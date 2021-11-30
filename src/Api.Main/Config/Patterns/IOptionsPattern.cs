@@ -2,11 +2,10 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Api.Main.Config.Patterns
+namespace Api.Main.Config.Patterns;
+
+public static class IOptionsPattern
 {
-    public static class IOptionsPattern
-    {
-        public static IServiceCollection AddIOptionsPattern(this IServiceCollection services, IConfiguration config) =>
-            services.Configure<HttpException>(config.GetSection("HttpException"));
-    }
+    public static IServiceCollection AddIOptionsPattern(this IServiceCollection services, IConfiguration config) =>
+        services.Configure<HttpException>(config.GetSection("HttpException"));
 }
