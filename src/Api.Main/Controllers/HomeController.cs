@@ -19,7 +19,7 @@ public class HomeController : ControllerBase
         if (user == null)
             return NotFound(new { message = "Invalid user or password" });
 
-        var token = JwtGenerator.GenerateToken(user);
+        var token = JwtHandler.GenerateToken(user);
         user.Password = string.Empty;
 
         return Task.FromResult(new

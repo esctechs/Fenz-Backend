@@ -35,17 +35,17 @@ public class Startup
         })
             .AddJwtBearer(x =>
             {
-                    //Change to true
-                    x.RequireHttpsMetadata = false;
+                //Change to true
+                x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                        //Change to true
-                        ValidateIssuer = false,
-                        //Change to true
-                        ValidateAudience = false
+                    //Change to true
+                    ValidateIssuer = false,
+                    //Change to true
+                    ValidateAudience = false
                 };
             });
 
