@@ -10,6 +10,13 @@ namespace Api.Main.Controllers;
 [Route("[controller]")]
 public class HomeController : ControllerBase
 {
+
+    private readonly IJwtHandler _jwtHandler;
+
+    public HomeController(IJwtHandler jwtHandler)
+    {
+        _jwtHandler = jwtHandler;
+    }
     [HttpPost]
     [Route("login")]
     public async Task<ActionResult<dynamic>> Authenticate([FromBody] User model)
@@ -19,7 +26,7 @@ public class HomeController : ControllerBase
         if (user == null)
             return NotFound(new { message = "Invalid user or password" });
 
-        var token = JwtHandler.GenerateToken(user);
+        var token = _jwtHandler.GenerateRsaToken(user);
         user.Password = string.Empty;
 
         return Task.FromResult(new
@@ -51,4 +58,9 @@ public class HomeController : ControllerBase
     [Route("manager")]
     [Authorize(Roles = "manager")]
     public string Manager() => "Gerente";
+
+    [HttpGet]
+    [Route("finance")]
+    [Authorize(Roles = "finance")]
+    public string Finance() => "Finances";
 }
