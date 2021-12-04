@@ -1,46 +1,37 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Text;
+using Fenz.Application.Secutiry.Jwt.Interfaces;
+using Fenz.Application.Secutiry.Jwt.Models;
 using Fenz.Application.Secutiry.Jwt.Responses;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Fenz.Application.Secutiry.Jwt;
 
-public static class JwtHandler
+public class JwtHandler : IJwtHandler
 {
-    private static readonly string Secret = "fedaf7d8863b48e197b9287d492b708e";
-    public static string GenerateToken(User user)
+    private readonly JwtSettings _jwtSettings;
+    public JwtHandler(JwtSettings jwtSettings)
     {
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(Secret);
-        var tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = new ClaimsIdentity(new Claim[]
-            {
-                    new Claim(ClaimTypes.Name, user.Username.ToString()),
-                    new Claim(ClaimTypes.Role, user.Role.ToString())
-            }),
-            Expires = DateTime.UtcNow.AddHours(2),
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-        };
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-        return tokenHandler.WriteToken(token);
-        //return string.Empty;
+        _jwtSettings = jwtSettings;
     }
 
-    public static JwtResponse GenerateRsaToken()
+    public JwtResponse GenerateRsaToken(User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler
         {
             SetDefaultTimesOnTokenCreation = false
         };
-        var exampleKey = "example";
-        var privateKey = exampleKey.ToByteArray();
+
+        var pkPem = File.ReadAllText(_jwtSettings.Cert);
+
+        var formatedPrivateKey = RemoveHeaderAndFooterPemText(pkPem, _jwtSettings);
+        var privateKey = formatedPrivateKey.ToByteArray();
 
         using RSA rsa = RSA.Create();
-        rsa.ImportRSAPrivateKey(privateKey, out _);
+        rsa.ImportPkcs8PrivateKey(privateKey, out _);
 
         var signinCredentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256)
         {
@@ -53,8 +44,11 @@ public static class JwtHandler
         {
             Subject = new ClaimsIdentity(new Claim[]
             {
-                 new Claim(ClaimTypes.Name, "userName"),
-                 new Claim(ClaimTypes.Role, "userRole")
+                 new Claim("name", user.Username),
+                 new Claim("role", user.Role),
+                 new Claim("aud", _jwtSettings.Audience),
+                 new Claim("iss", _jwtSettings.Issuer),
+                 //new Claim(ClaimTypes.Email, "userEmail"),
             }),
             IssuedAt = DateTime.UtcNow,
             Expires = DateTime.UtcNow.AddMinutes(60),
@@ -63,6 +57,13 @@ public static class JwtHandler
         var securityToken = tokenHandler.CreateToken(tokenDescriptor);
         var token = tokenHandler.WriteToken(securityToken);
         return JwtResponse.Create(token, unixTimeSeconds);
+    }
+
+    public static string RemoveHeaderAndFooterPemText(string pemKey, IJwtSettings jwtSettings)
+    {
+        var privateKey = pemKey.Replace(jwtSettings.PemHeader, string.Empty)
+                               .Replace(jwtSettings.PemFooter, string.Empty);
+        return privateKey;
     }
 }
 
