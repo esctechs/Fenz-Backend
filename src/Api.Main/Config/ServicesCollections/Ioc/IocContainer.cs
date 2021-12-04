@@ -1,7 +1,6 @@
-namespace Api.Main.Config.Services.Ioc
+namespace Api.Main.Config.Services.Ioc;
+
+public class IocContainer
 {
-    public class IocContainer
-    {
-        
-    }
+
 }

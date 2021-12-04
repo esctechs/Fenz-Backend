@@ -1,24 +1,23 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace Api.Main.Middleware
-{
-    public class Middleware
-    {
-        readonly RequestDelegate _next;
-        public Middleware(RequestDelegate next) => _next = next;
+namespace Api.Main.Middleware;
 
-        public async Task InvokeAsync(HttpContext context, IRequestHandler middleware)
+public class Middleware
+{
+    readonly RequestDelegate _next;
+    public Middleware(RequestDelegate next) => _next = next;
+
+    public async Task InvokeAsync(HttpContext context, IRequestHandler middleware)
+    {
+        try
         {
-            try
-            {
-                await _next(context);
-            }
-            catch (Exception ex)
-            {
-                await middleware.HandleRequests(context, ex);
-            }
+            await _next(context);
+        }
+        catch (Exception ex)
+        {
+            await middleware.HandleRequests(context, ex);
         }
     }
 }

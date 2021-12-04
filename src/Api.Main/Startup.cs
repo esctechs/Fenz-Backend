@@ -1,6 +1,7 @@
-using Api.Main.Config;
+﻿using Api.Main.Config;
 using Api.Main.Config.Patterns;
 using Api.Main.Config.ServicesCollections.Authorization;
+using Api.Main.Config.ServicesCollections.Fenz;
 using Api.Main.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,20 +24,16 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-
         services.AddControllers();
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api.Main", Version = "v1" });
         });
 
-        services.AddIdentityServer4(Configuration);
+        services.AddFenzServices(Configuration);
+        services.AddAsymmetricAuth(Configuration);
         services.LoadJsonFiles(WebHostEnvironment);
         services.AddIOptionsPattern(Configuration);
-        //services.AddLoggingConfigure();
-
-        //Temporary Registration
-        services.AddSingleton<IRequestHandler, RequestHandler>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -49,6 +46,12 @@ public class Startup
         app.UseHttpsRedirection();
 
         app.UseRouting();
+
+        app.UseCors(x => x
+            .AllowAnyMethod()
+            .AllowAnyOrigin()
+            .AllowAnyOrigin());
+
         app.UseAuthentication();
         app.UseAuthorization();
 
