@@ -9,6 +9,12 @@ namespace Api.Main.Config.ServicesCollections.Authorization;
 
 public static class AsymmetricAuth
 {
+    /// <summary>
+    /// Extension method that adds Asymmetric authentication to services collection
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configuration"></param>
+    /// <returns></returns>
     public static IServiceCollection AddAsymmetricAuth(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton<RsaSecurityKey>(provider =>
@@ -20,7 +26,8 @@ public static class AsymmetricAuth
 
         services.AddAuthorization(options =>
         {
-            options.AddPolicy("Admin", policy => policy.RequireClaim("role", "finance"));
+            options.AddPolicy("Admin", policy => policy.RequireRole("finance"));
+            options.AddPolicy("AuthUsers", policy => policy.RequireAuthenticatedUser());
         });
 
         services.AddAuthentication(x =>

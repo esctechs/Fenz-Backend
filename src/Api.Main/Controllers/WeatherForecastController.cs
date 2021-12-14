@@ -7,7 +7,7 @@ namespace Api.Main.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-//[Authorize(Policy = "fenz-services")]
+[Authorize(Policy = "Admin")]
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries = new[]
