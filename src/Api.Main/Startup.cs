@@ -32,7 +32,6 @@ public class Startup
 
         services.AddFenzServices(Configuration);
         services.AddAsymmetricAuth(Configuration);
-        services.LoadJsonFiles(WebHostEnvironment);
         services.AddIOptionsPattern(Configuration);
     }
 

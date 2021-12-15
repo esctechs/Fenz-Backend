@@ -1,5 +1,6 @@
 ﻿using Api.Main.Middleware;
 using Fenz.Application.Secutiry.Jwt;
+using Fenz.Application.Secutiry.Jwt.Interfaces;
 using Fenz.Application.Secutiry.Jwt.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,9 +14,9 @@ public static class FenzServices
         #region[Jwt]
         var jwtSettings = JwtSettings.Create();
         configuration.GetSection("JwtSettings").Bind(jwtSettings);
-
-        services.AddScoped<IJwtHandler, JwtHandler>();
         services.AddSingleton(jwtSettings);
+
+        services.AddSecurityServices();
         #endregion
 
         #region[Sentry]
@@ -23,4 +24,8 @@ public static class FenzServices
         #endregion
         return services;
     }
+
+    private static void AddSecurityServices(this IServiceCollection services) =>
+        services.AddScoped<IJwtHandler, JwtHandler>()
+                .AddScoped<IAccessManager, AccessManager>();
 }
