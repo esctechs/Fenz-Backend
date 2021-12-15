@@ -9,4 +9,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dtos\Commands\" />
+    <Folder Include="Dtos\Responses\" />
+  </ItemGroup>
+
 </Project>
