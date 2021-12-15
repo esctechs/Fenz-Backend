@@ -3,9 +3,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
+using Fenz.Application.Dtos;
 using Fenz.Application.Secutiry.Jwt.Interfaces;
 using Fenz.Application.Secutiry.Jwt.Models;
-using Fenz.Application.Secutiry.Jwt.Responses;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Fenz.Application.Secutiry.Jwt;
@@ -18,14 +19,14 @@ public class JwtHandler : IJwtHandler
         _jwtSettings = jwtSettings;
     }
 
-    public JwtResponse GenerateRsaToken(User user)
+    public async Task<AuthResult> GenerateRsaToken(User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler
         {
             SetDefaultTimesOnTokenCreation = false
         };
 
-        var pkPem = File.ReadAllText(_jwtSettings.Cert);
+        var pkPem = await File.ReadAllTextAsync(_jwtSettings.Cert);
 
         var formatedPrivateKey = RemoveHeaderAndFooterPemText(pkPem, _jwtSettings);
         var privateKey = formatedPrivateKey.ToByteArray();
@@ -56,7 +57,8 @@ public class JwtHandler : IJwtHandler
         };
         var securityToken = tokenHandler.CreateToken(tokenDescriptor);
         var token = tokenHandler.WriteToken(securityToken);
-        return JwtResponse.Create(token, unixTimeSeconds);
+
+        return AuthResult.Create(true, token);
     }
 
     public static string RemoveHeaderAndFooterPemText(string pemKey, IJwtSettings jwtSettings)
