@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Fenz.Application;
-using Fenz.Application.Secutiry.Jwt;
+using Fenz.Application.Dtos;
+using Fenz.Application.Secutiry.Jwt.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,29 +13,22 @@ namespace Api.Main.Controllers;
 public class HomeController : ControllerBase
 {
 
-    private readonly IJwtHandler _jwtHandler;
+    private readonly IAccessManager _accessManager;
 
-    public HomeController(IJwtHandler jwtHandler)
+    public HomeController(IAccessManager accessManager)
     {
-        _jwtHandler = jwtHandler;
+        _accessManager = accessManager;
     }
+
+    //Use grant type for signin and refresh token
     [HttpPost]
     [Route("login")]
-    public async Task<ActionResult<dynamic>> Authenticate([FromBody] User model)
+    public async Task<AuthResult> Authenticate([FromBody] User model)
     {
         var user = UserRepository.Get(model.Username, model.Password);
 
-        if (user == null)
-            return NotFound(new { message = "Invalid user or password" });
-
-        var token = _jwtHandler.GenerateRsaToken(user);
-        user.Password = string.Empty;
-
-        return Task.FromResult(new
-        {
-            user = user,
-            token = token,
-        });
+        //var token = await _jwtHandler.GenerateRsaToken(user);
+        throw new NotImplementedException();
     }
 
     [HttpGet]
